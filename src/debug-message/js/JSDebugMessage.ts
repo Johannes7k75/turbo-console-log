@@ -1,4 +1,4 @@
-import { Position, TextDocument, TextEditorEdit, TextLine } from 'vscode';
+import { Position, TextDocument, TextEditorEdit, TextLine, workspace } from 'vscode';
 import {
   BlockType,
   ExtensionProperties,
@@ -116,9 +116,7 @@ export class JSDebugMessage extends DebugMessage {
       'wrapLogMessage' | 'insertEmptyLineAfterLogMessage'
     >,
   ): string {
-    const fileName = document.fileName.includes('/')
-      ? document.fileName.split('/')[document.fileName.split('/').length - 1]
-      : document.fileName.split('\\')[document.fileName.split('\\').length - 1];
+    const fileName = workspace.asRelativePath(document.fileName)
     const funcThatEncloseTheVar: string = this.enclosingBlockName(
       document,
       lineOfSelectedVar,
